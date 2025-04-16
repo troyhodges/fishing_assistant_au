@@ -1,0 +1,10 @@
+{
+    "domain": "fishing_assistant",
+    "name": "Fishing Assistant",
+    "version": "0.0.1",
+    "documentation": "https://github.com/YOUR_USERNAME/fishing_assistant",
+    "dependencies": [],
+    "codeowners": ["@YOUR_GITHUB_USERNAME"],
+    "requirements": ["astral==3.2", "httpx"],
+    "iot_class": "cloud_polling"
+}  
