@@ -2,6 +2,7 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from .const import DOMAIN
 import datetime
 
@@ -40,7 +41,7 @@ async def async_setup_entry(
     async_add_entities(sensors)
 
 
-class FishScoreSensor(Entity):
+class FishScoreSensor(SensorEntity):
     def __init__(self, name, fish, lat, lon, body_type, timezone, elevation):
         self._name = f"{name.lower().replace(' ', '_')}_{fish}_score"
         self._friendly_name = f"{name} ({fish.title()}) Fishing Score"
@@ -64,7 +65,19 @@ class FishScoreSensor(Entity):
         return self._name
 
     @property
-    def state(self):
+    def device_class(self):
+        return None  # or an appropriate class
+
+    @property
+    def entity_category(self):
+        return None  # or "diagnostic" if this is supplemental data
+    
+    @property
+    def icon(self):
+        return "mdi:fish"
+    
+    @property
+    def native_value(self):
         return self._state
 
     @property

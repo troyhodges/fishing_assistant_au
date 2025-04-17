@@ -8,9 +8,28 @@ from homeassistant.core import HomeAssistant
 
 async def calculate_astronomy_forecast(hass: HomeAssistant, lat: float, lon: float, days: int = 7) -> Dict[str, dict]:
     ts = load.timescale()
-    eph_path = os.path.join(os.path.dirname(__file__), "../data/de421.bsp")
-    eph = await hass.async_add_executor_job(load, eph_path)
-
+    
+    # Check if ephemeris file exists, if not create the directory
+    data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+    os.makedirs(data_dir, exist_ok=True)
+    
+    eph_path = os.path.join(data_dir, "de421.bsp")
+    
+    # Download if not exists
+    if not os.path.exists(eph_path):
+        _LOGGER = logging.getLogger(__name__)
+        _LOGGER.info("Downloading skyfield ephemeris data...")
+        # Use executor to download without blocking
+        def download_eph():
+            import urllib.request
+            url = "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de421.bsp"
+            urllib.request.urlretrieve(url, eph_path)
+            return load(eph_path)
+            
+        eph = await hass.async_add_executor_job(download_eph)
+    else:
+        # Load existing file
+        eph = await hass.async_add_executor_job(lambda: load(eph_path))
     location = wgs84.latlon(lat, lon)
 
     start_date = datetime.now(timezone.utc).date()
