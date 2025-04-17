@@ -1,0 +1,21 @@
+{
+    "config": {
+      "title": "Fishing Assistant",
+      "step": {
+        "user": {
+          "title": "Add Fishing Location",
+          "description": "Set up a fishing location with target species and water body type.",
+          "data": {
+            "name": "Location name",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "fish": "Target species",
+            "body_type": "Body type"
+          }
+        }
+      },
+      "abort": {
+        "already_configured": "This location is already configured"
+      }
+    }
+  }
