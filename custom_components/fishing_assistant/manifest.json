@@ -3,6 +3,7 @@
     "name": "Fishing Assistant",
     "version": "0.0.1",
     "documentation": "https://github.com/bairnhard/fishing_assistant",
+    "issue_tracker": "https://github.com/bairnhard/fishing_assistant/issues",
     "dependencies": [],
     "codeowners": ["@bairnhard"],
     "requirements": ["timezonefinder", "pandas", "skyfield", "jplephem"],
