@@ -165,3 +165,6 @@ FISH_PROFILES = {
         "prefers_low_pressure": True # Often more active during low light conditions
     }
 }
+
+def get_fish_species() -> list[str]:
+    return list(FISH_PROFILES.keys())

@@ -6,8 +6,9 @@ from typing import Any
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
-from .const import DOMAIN, FISH_SPECIES
+from .const import DOMAIN
 from .helpers.location import resolve_location_metadata_sync
+from fish_profiles import get_fish_species
 
 
 class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -50,7 +51,10 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Required("longitude"): vol.Coerce(float),
             vol.Required("fish"): selector.SelectSelector(
                 selector.SelectSelectorConfig(
-                    options=[{"value": f, "label": f.replace("_", " ").title()} for f in FISH_SPECIES],
+                    options=[
+                        {"value": f, "label": f.replace("_", " ").title()}
+                        for f in sorted(get_fish_species())
+                    ],
                     multiple=True,
                     mode=selector.SelectSelectorMode.DROPDOWN
                 )
