@@ -1,3 +1,5 @@
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://hacs.xyz/docs/setup/custom_repositories)
+[![GitHub release](https://img.shields.io/github/v/release/bairnhard/home-assistant-google-aqi?style=for-the-badge)](https://github.com/bairnhard/home-assistant-google-aqi/releases)
 
 # 🎣 Fishing Assistant for Home Assistant
 
