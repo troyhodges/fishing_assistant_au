@@ -42,6 +42,8 @@ async def async_setup_entry(
 
 
 class FishScoreSensor(SensorEntity):
+    should_poll = True
+    
     def __init__(self, name, fish, lat, lon, body_type, timezone, elevation):
         self._last_update_hour = None
         self._name = f"{name.lower().replace(' ', '_')}_{fish}_score"
@@ -89,6 +91,8 @@ class FishScoreSensor(SensorEntity):
         """Fetch the 7-day forecast and set today's score as state."""
         now = datetime.datetime.now()
         update_hours = [0, 6, 12, 18]
+        if now.hour not in update_hours:
+            return  # Skip update
 
         # Check if current hour is in update_hours and we haven't updated this hour yet
         if self._last_update_hour == now.hour or now.hour not in update_hours:
@@ -110,3 +114,6 @@ class FishScoreSensor(SensorEntity):
 
         self._attrs["forecast"] = forecast
         self._last_update_hour = now.hour
+
+    async def async_added_to_hass(self):
+        await self.async_update()
