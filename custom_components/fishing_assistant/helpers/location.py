@@ -2,23 +2,24 @@ import httpx
 from timezonefinder import TimezoneFinder
 from homeassistant.core import HomeAssistant
 
-async def resolve_location_metadata(hass: HomeAssistant, lat: float, lon: float) -> dict:
-    """Calculate timezone and elevation for a given lat/lon."""
+def resolve_location_metadata_sync(lat: float, lon: float) -> dict:
+    """Calculate timezone and elevation for a given lat/lon (sync-safe)."""
+    from homeassistant.util import dt as dt_util
+
     tf = TimezoneFinder()
-    timezone = tf.timezone_at(lat=lat, lng=lon) or hass.config.time_zone
-    elevation = 500  # Default
+    timezone = tf.timezone_at(lat=lat, lng=lon) or dt_util.DEFAULT_TIME_ZONE
+    elevation = 500
 
     try:
         url = f"https://api.open-elevation.com/api/v1/lookup?locations={lat},{lon}"
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url, timeout=10)
-            if response.status_code == 200:
-                results = response.json().get("results", [])
-                if results:
-                    elevation = results[0].get("elevation", elevation)
-    except Exception as e:
-        _LOGGER = getattr(hass, "logger", None)
-        if _LOGGER:
-            _LOGGER.warning(f"Elevation API failed: {e}")
+        response = httpx.get(url, timeout=10)
+        if response.status_code == 200:
+            result = response.json().get("results", [{}])[0]
+            elevation = result.get("elevation", elevation)
+    except Exception:
+        pass  # Fail silently for now
 
-    return {"timezone": timezone, "elevation": elevation}
+    return {
+        "timezone": timezone,
+        "elevation": elevation
+    }

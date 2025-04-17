@@ -5,7 +5,7 @@
     "documentation": "https://github.com/bairnhard/fishing_assistant",
     "dependencies": [],
     "codeowners": ["@bairnhard"],
-    "requirements": ["httpx", "timezonefinder"],
+    "requirements": ["timezonefinder", "pandas", "skyfield"],
     "iot_class": "cloud_polling",
     "config_flow": true
 }  

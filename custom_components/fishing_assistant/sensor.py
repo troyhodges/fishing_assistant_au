@@ -3,8 +3,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from .const import DOMAIN
+import datetime
 
-from .score import get_fish_score
+from .score import get_fish_score_forecast
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -29,9 +30,9 @@ async def async_setup_entry(
                 name=name,
                 fish=fish,
                 lat=lat,
-                lon=lon,
-                body_type=body_type,
+                lon=lon,                
                 timezone=timezone,
+                body_type=body_type,
                 elevation=elevation,
             )
         )
@@ -71,16 +72,19 @@ class FishScoreSensor(Entity):
         return self._attrs
 
     async def async_update(self):
-        # Placeholder: fake score for now
-        self._state = 0.75
-        
-        
-async def async_update(self):
-    self._state = await get_fish_score(
-        fish=self._attrs["fish"],
-        lat=self._attrs["lat"],
-        lon=self._attrs["lon"],
-        timezone=self._attrs["timezone"],
-        elevation=self._attrs["elevation"],
-        body_type=self._attrs["body_type"],
-    )
+        """Fetch the 7-day forecast and set today's score as state."""
+        forecast = await get_fish_score_forecast(
+            hass=self.hass,
+            fish=self._attrs["fish"],
+            lat=self._attrs["lat"],
+            lon=self._attrs["lon"],
+            timezone=self._attrs["timezone"],
+            elevation=self._attrs["elevation"],
+            body_type=self._attrs["body_type"],
+        )
+
+        today_str = str(datetime.date.today())
+        today_data = forecast.get(today_str, {})
+        self._state = today_data.get("score", 0.0)
+
+        self._attrs["forecast"] = forecast

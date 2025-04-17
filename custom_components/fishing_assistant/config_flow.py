@@ -7,7 +7,8 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
 from .const import DOMAIN, FISH_SPECIES
-from .helpers.location import resolve_location_metadata
+from .helpers.location import resolve_location_metadata_sync
+
 
 class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle the config flow for Fishing Assistant."""
@@ -26,7 +27,8 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             body_type = user_input["body_type"]
 
             # Get elevation and timezone once
-            metadata = await resolve_location_metadata(self.hass, lat, lon)
+            metadata = await self.hass.async_add_executor_job(resolve_location_metadata_sync, lat, lon)
+
 
             return self.async_create_entry(
                 title=name,
@@ -53,7 +55,7 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     mode=selector.SelectSelectorMode.DROPDOWN
                 )
             ),
-            vol.Required("body_type"): vol.In(["lake", "river", "pond", "canal", "reservoir"]),
+            vol.Required("body_type"): vol.In(["lake", "river", "pond", "reservoir"]),
         })
 
         return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
