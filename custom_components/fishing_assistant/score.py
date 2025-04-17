@@ -14,11 +14,10 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def get_profile_weights(body_type: str) -> dict:
-    """
-    Return scoring weights based on the type of water body.
-    Adjusts importance of pressure, solunar, etc.
-    """
-    # Default: lake
+    if body_type not in ["lake", "river", "pond", "reservoir"]:
+        _LOGGER.warning(f"Unknown body_type '{body_type}', defaulting to 'lake'.")
+        body_type = "lake"
+
     weights = {
         "temp": 0.25,
         "cloud": 0.1,
@@ -27,21 +26,27 @@ def get_profile_weights(body_type: str) -> dict:
         "precip": 0.1,
         "twilight": 0.15,
         "solunar": 0.1,
-        "moon": 0.05
+        "moon": 0.05,
     }
 
     if body_type == "river":
-        weights["pressure"] = 0.05
-        weights["solunar"] = 0.05
-        weights["precip"] = 0.2  # rivers react more to rain
+        weights.update({
+            "pressure": 0.05,
+            "solunar": 0.05,
+            "precip": 0.2,
+        })
     elif body_type == "pond":
-        weights["temp"] = 0.3
-        weights["precip"] = 0.2
-        weights["pressure"] = 0.2
+        weights.update({
+            "temp": 0.3,
+            "precip": 0.2,
+            "pressure": 0.2,
+        })
     elif body_type == "reservoir":
-        weights["pressure"] = 0.1
-        weights["solunar"] = 0.08
-        weights["moon"] = 0.07
+        weights.update({
+            "pressure": 0.1,
+            "solunar": 0.08,
+            "moon": 0.07,
+        })
 
     return weights
 
