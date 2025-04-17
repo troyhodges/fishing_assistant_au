@@ -16,7 +16,7 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
     # This makes it show up in the UI
-    CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
+    DOMAIN = DOMAIN
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None):
         """Handle a flow initiated by the user."""
