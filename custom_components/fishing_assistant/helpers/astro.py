@@ -4,6 +4,7 @@ from skyfield.api import load, wgs84
 from skyfield import almanac
 import os
 from homeassistant.core import HomeAssistant
+import logging
 
 
 async def calculate_astronomy_forecast(hass: HomeAssistant, lat: float, lon: float, days: int = 7) -> Dict[str, dict]:

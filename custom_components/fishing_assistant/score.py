@@ -81,7 +81,7 @@ async def get_fish_score_forecast(
                     "latitude": lat,
                     "longitude": lon,
                     "hourly": "temperature_2m,cloudcover,pressure_msl,precipitation,windspeed_10m",
-                    "daily": "sunrise,sunset",  # ⛔ do not request moon_phase
+                    "daily": "sunrise,sunset",
                     "timezone": timezone,
                     "elevation": elevation,
                     "start_date": str(today),
@@ -137,7 +137,8 @@ async def get_fish_score_forecast(
             "score": round(best_avg, 2),
             "best_window": f"{best_window[0]} – {best_window[1]}"
         }
-
+        
+    
     return forecast
 
 
@@ -226,6 +227,8 @@ def _score_twilight(hour: int, sunrise, sunset) -> float:
 
 def _score_moon_phase(phase: float) -> float:
     # 0.0 = New, 0.5 = Full, 1.0 = New
+    if phase is None:
+        return 0.7  # Default score when moon phase data is missing
     if phase < 0.1 or phase > 0.9:
         return 1.0
     return 0.7
