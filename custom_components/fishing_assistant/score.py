@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def scale_score(score):
-    stretched = (score - 0.4) / (1.0 - 0.4) * 10
+    stretched = (score - 0.5) / (0.9 - 0.5) * 10
     return max(0, min(10, round(stretched)))
 
 
