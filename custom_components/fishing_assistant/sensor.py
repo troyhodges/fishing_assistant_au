@@ -91,11 +91,11 @@ class FishScoreSensor(SensorEntity):
         """Fetch the 7-day forecast and set today's score as state."""
         now = datetime.datetime.now()
         update_hours = [0, 6, 12, 18]
-        if now.hour not in update_hours:
-            return  # Skip update
+    
+        if self._last_update_hour is not None and now.hour not in update_hours:
+            return
 
-        # Check if current hour is in update_hours and we haven't updated this hour yet
-        if self._last_update_hour == now.hour or now.hour not in update_hours:
+        if self._last_update_hour == now.hour:
             return
 
         forecast = await get_fish_score_forecast(

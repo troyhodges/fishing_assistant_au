@@ -67,6 +67,7 @@ async def get_fish_score_forecast(
 ) -> Dict[str, Dict[str, str | float]]:
     fish_profile = FISH_PROFILES.get(fish)
     if not fish_profile:
+        _LOGGER.warning(f"No fish profile found for '{fish}'")
         return {}
 
     today = datetime.date.today()
@@ -95,6 +96,7 @@ async def get_fish_score_forecast(
                 timeout=aiohttp.ClientTimeout(total=15)
             ) as response:
                 data = await response.json()
+                _LOGGER.debug(f"Open-Meteo response: {data}")
                 if "hourly" not in data or "daily" not in data:
                     _LOGGER.warning(f"Fishing forecast fetch failed for {fish} at {lat}, {lon}: {data}")
                     return {}
@@ -143,7 +145,8 @@ async def get_fish_score_forecast(
             "best_window": f"{best_window[0]} – {best_window[1]}"
         }
         
-    
+    _LOGGER.debug(f"Forecast for {fish} on {lat},{lon}: {forecast}")
+
     return forecast
 
 
