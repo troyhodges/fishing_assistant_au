@@ -1,4 +1,11 @@
 {
     "component.fishing_assistant.title": "Fishing Assistant",
-    "component.fishing_assistant.description": "Shows fishing scores based on weather and moon data"
+    "component.fishing_assistant.description": "Shows fishing scores based on weather and moon data",
+    "config": {
+        "step": {
+            "user": {
+                "title": "Configure Fishing Location"
+      }
+    }
+  }
 }
