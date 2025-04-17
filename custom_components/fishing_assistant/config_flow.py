@@ -8,7 +8,7 @@ from homeassistant.core import callback
 from homeassistant.helpers import selector
 from .const import DOMAIN
 from .helpers.location import resolve_location_metadata_sync
-from fish_profiles import get_fish_species
+from .fish_profiles import get_fish_species
 
 
 class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
