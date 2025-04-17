@@ -2,11 +2,23 @@ import logging
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.discovery import async_load_platform
 from homeassistant.helpers.typing import ConfigType
+from .helpers.location import resolve_location_metadata
+
 
 from .const import DOMAIN
 from .helpers.location import resolve_location_metadata
 
 _LOGGER = logging.getLogger(__name__)
+
+async def async_setup_entry(hass, config_entry):
+    """Set up Fishing Assistant from a config entry."""
+    hass.async_create_task(
+        hass.config_entries.async_forward_entry_setup(config_entry, "sensor")
+    )
+    return True
+
+async def async_unload_entry(hass, config_entry):
+    return await hass.config_entries.async_forward_entry_unload(config_entry, "sensor")
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up Fishing Assistant from YAML config."""
