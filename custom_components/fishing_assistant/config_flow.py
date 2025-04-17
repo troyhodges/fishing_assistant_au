@@ -6,7 +6,7 @@ from typing import Any
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
-from .const import DOMAIN
+from .const import DOMAIN, DEFAULT_NAME
 from .helpers.location import resolve_location_metadata_sync
 from .fish_profiles import get_fish_species
 
@@ -15,9 +15,11 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle the config flow for Fishing Assistant."""
 
     VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
+    # This makes it show up in the UI
+    CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None):
+        """Handle a flow initiated by the user."""
         errors = {}
 
         if user_input is not None:
@@ -30,9 +32,11 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             # Get elevation and timezone once
             metadata = await self.hass.async_add_executor_job(resolve_location_metadata_sync, lat, lon)
 
+            # Create an entry title that's unique
+            entry_title = f"{name}"
 
             return self.async_create_entry(
-                title=name,
+                title=entry_title,
                 data={
                     "name": name,
                     "latitude": lat,
@@ -63,3 +67,10 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         })
 
         return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
+
+    # Add a method to allow users to add more locations
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry):
+        """No options for now."""
+        return None
