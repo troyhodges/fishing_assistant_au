@@ -1,16 +1,16 @@
 {
-    "title": "Angel Assistant",
+    "title": "Angel-Assistent",
     "config": {
       "step": {
         "user": {
-          "title": "Gewässer hinzufügen",
-          "description": "Neues Gewässer mit Zielfischen und Gewässerart einrichten.",
+          "title": "Angelplatz hinzufügen",
+          "description": "Richten Sie einen Angelplatz mit Zielart und Gewässertyp ein.",
           "data": {
-            "name": "Name",
-            "latitude": "Breite",
-            "longitude": "Länge",
-            "fish": "Zielfisch",
-            "body_type": "Art"
+            "name": "Name des Ortes",
+            "latitude": "Breitengrad",
+            "longitude": "Längengrad",
+            "fish": "Zielart",
+            "body_type": "Gewässertyp"
           }
         }
       }
@@ -20,10 +20,32 @@
         "carp": "Karpfen",
         "trout": "Forelle",
         "zander": "Zander",
-        "pike": "Hecht",        
-        "perch": "Barsch",
+        "pike": "Hecht",
         "bass": "Barsch",
-        "catfish": "Waller/Wels"
+        "perch": "Flussbarsch",
+        "catfish": "Wels",
+        "largemouth_bass": "Großmaulbarsch",
+        "smallmouth_bass": "Schwarzbarsch",
+        "walleye": "Glasauge",
+        "bluegill": "Sonnenbarsch",
+        "crappie": "Hundsbarsch",
+        "muskellunge": "Musky",
+        "brook_trout": "Bachforelle",
+        "brown_trout": "Bachforelle (Braunforelle)",
+        "rainbow_trout": "Regenbogenforelle",
+        "common_nase": "Nase",
+        "chub": "Döbel",
+        "char": "Saibling",
+        "huchen": "Huchen",
+        "bullhead": "Groppe",
+        "whitefish": "Felchen",
+        "burbot": "Trüsche",
+        "asp": "Rapfen",
+        "tench": "Schleie",
+        "rudd": "Rotfeder",
+        "bleak": "Laube",
+        "wels_catfish": "Wels",
+        "grayling": "Äsche"
       },
       "body_type": {
         "lake": "See",
