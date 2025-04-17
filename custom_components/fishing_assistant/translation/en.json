@@ -1,11 +1,39 @@
 {
-    "component.fishing_assistant.title": "Fishing Assistant",
-    "component.fishing_assistant.description": "Shows fishing scores based on weather and moon data",
-    "config": {
-        "step": {
-            "user": {
-                "title": "Configure Fishing Location"
+  "title": "Fishing Assistant",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Fishing Location",
+        "description": "Set up a fishing location with target species and water body type.",
+        "data": {
+          "name": "Location name",
+          "latitude": "Latitude",
+          "longitude": "Longitude",
+          "fish": "Target species",
+          "body_type": "Body type"
+        }
       }
     }
-  }
+  },
+  "options": {
+    "fish": {
+      "carp": "Carp",
+      "trout": "Trout",
+      "zander": "Zander",
+      "pike": "Pike",
+      "bass": "Bass",
+      "perch": "Perch",
+      "catfish": "Catfish"
+    },
+    "body_type": {
+      "lake": "Lake",
+      "river": "River",
+      "pond": "Pond",
+      "reservoir": "Reservoir"
+    }
+  },
+  "error": {},
+  "abort": {},
+  "progress": {},
+  "create_entry": {}
 }

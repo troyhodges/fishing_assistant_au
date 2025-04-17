@@ -1,0 +1,39 @@
+{
+    "title": "Angel Assistant",
+    "config": {
+      "step": {
+        "user": {
+          "title": "Gewässer hinzufügen",
+          "description": "Neues Gewässer mit Zielfischen und Gewässerart einrichten.",
+          "data": {
+            "name": "Name",
+            "latitude": "Breite",
+            "longitude": "Länge",
+            "fish": "Zielfisch",
+            "body_type": "Art"
+          }
+        }
+      }
+    },
+    "options": {
+      "fish": {
+        "carp": "Karpfen",
+        "trout": "Forelle",
+        "zander": "Zander",
+        "pike": "Hecht",        
+        "perch": "Barsch",
+        "bass": "Barsch",
+        "catfish": "Waller/Wels"
+      },
+      "body_type": {
+        "lake": "See",
+        "river": "Fluss",
+        "pond": "Teich",
+        "reservoir": "Stausee"
+      }
+    },
+    "error": {},
+    "abort": {},
+    "progress": {},
+    "create_entry": {}
+  }

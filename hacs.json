@@ -1,10 +1,9 @@
 {
     "name": "Fishing Assistant",
     "content_in_root": false,
-    "domains": [
-        "fishing_assistant"
-    ],
-    "country": "DE",
+    "domains": ["sensor"],
+    "country": "worldwide",
     "homeassistant": "2023.0.0",
     "render_readme": true
-}
+  }
+  
