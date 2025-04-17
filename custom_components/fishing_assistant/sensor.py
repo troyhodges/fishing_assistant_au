@@ -6,7 +6,7 @@ from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from .const import DOMAIN
 import datetime
 
-from .score import get_fish_score_forecast
+from .score import get_fish_score_forecast, scale_score
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -43,6 +43,7 @@ async def async_setup_entry(
 
 class FishScoreSensor(SensorEntity):
     def __init__(self, name, fish, lat, lon, body_type, timezone, elevation):
+        self._last_update_hour = None
         self._name = f"{name.lower().replace(' ', '_')}_{fish}_score"
         self._friendly_name = f"{name} ({fish.title()}) Fishing Score"
         self._state = None
@@ -86,6 +87,13 @@ class FishScoreSensor(SensorEntity):
 
     async def async_update(self):
         """Fetch the 7-day forecast and set today's score as state."""
+        now = datetime.datetime.now()
+        update_hours = [0, 6, 12, 18]
+
+        # Check if current hour is in update_hours and we haven't updated this hour yet
+        if self._last_update_hour == now.hour or now.hour not in update_hours:
+            return
+
         forecast = await get_fish_score_forecast(
             hass=self.hass,
             fish=self._attrs["fish"],
@@ -98,6 +106,7 @@ class FishScoreSensor(SensorEntity):
 
         today_str = str(datetime.date.today())
         today_data = forecast.get(today_str, {})
-        self._state = today_data.get("score", 0.0)
+        self._state = today_data.get("score", 0)
 
         self._attrs["forecast"] = forecast
+        self._last_update_hour = now.hour

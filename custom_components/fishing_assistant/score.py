@@ -13,6 +13,11 @@ OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
 _LOGGER = logging.getLogger(__name__)
 
 
+def scale_score(score):
+    stretched = (score - 0.4) / (1.0 - 0.4) * 10
+    return max(0, min(10, round(stretched)))
+
+
 def get_profile_weights(body_type: str) -> dict:
     if body_type not in ["lake", "river", "pond", "reservoir"]:
         _LOGGER.warning(f"Unknown body_type '{body_type}', defaulting to 'lake'.")
@@ -134,7 +139,7 @@ async def get_fish_score_forecast(
                 best_window = (f"{scores[i][0]:02}:00", f"{scores[i+2][0]:02}:00")
 
         forecast[date_str] = {
-            "score": round(best_avg, 2),
+            "score": scale_score(best_avg),
             "best_window": f"{best_window[0]} – {best_window[1]}"
         }
         
