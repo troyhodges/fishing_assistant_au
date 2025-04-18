@@ -35,6 +35,7 @@ async def async_setup_entry(
                 timezone=timezone,
                 body_type=body_type,
                 elevation=elevation,
+                config_entry_id=config_entry.entry_id
             )
         )
 
@@ -44,8 +45,10 @@ async def async_setup_entry(
 class FishScoreSensor(SensorEntity):
     should_poll = True
     
-    def __init__(self, name, fish, lat, lon, body_type, timezone, elevation):
+    def __init__(self, name, fish, lat, lon, body_type, timezone, elevation, config_entry_id):
         self._last_update_hour = None
+        self._config_entry_id = config_entry_id
+        self._device_identifier = f"{name}_{lat}_{lon}"
         self._name = f"{name.lower().replace(' ', '_')}_{fish}_score"
         self._friendly_name = f"{name} ({fish.title()}) Fishing Score"
         self._state = None
@@ -86,6 +89,18 @@ class FishScoreSensor(SensorEntity):
     @property
     def extra_state_attributes(self):
         return self._attrs
+    
+    @property
+    def device_info(self):
+        return {
+            "identifiers": {(DOMAIN, self._device_identifier)},
+            "name": self._attrs["location"],
+            "manufacturer": "Fishing Assistant",
+            "model": "Fish Score Sensor",
+            "entry_type": "service",
+            "via_device": None,
+            "config_entry_id": self._config_entry_id
+        }
 
     async def async_update(self):
         """Fetch the 7-day forecast and set today's score as state."""

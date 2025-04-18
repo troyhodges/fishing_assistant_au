@@ -1,25 +1,20 @@
 from __future__ import annotations
 
 import voluptuous as vol
-from typing import Any
-
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
-from .const import DOMAIN, DEFAULT_NAME
+
+from .const import DOMAIN
 from .helpers.location import resolve_location_metadata_sync
 from .fish_profiles import get_fish_species
 
-
 class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle the config flow for Fishing Assistant."""
+    """Handle Fishing Assistant config flow."""
 
     VERSION = 1
-    # This makes it show up in the UI
-    DOMAIN = DOMAIN
 
-    async def async_step_user(self, user_input: dict[str, Any] | None = None):
-        """Handle a flow initiated by the user."""
+    async def async_step_user(self, user_input=None):
         errors = {}
 
         if user_input is not None:
@@ -29,48 +24,84 @@ class FishingAssistantConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             fish = user_input["fish"]
             body_type = user_input["body_type"]
 
-            # Get elevation and timezone once
-            metadata = await self.hass.async_add_executor_job(resolve_location_metadata_sync, lat, lon)
+            await self.async_set_unique_id(f"{lat:.5f}_{lon:.5f}")
+            self._abort_if_unique_id_configured()
 
-            # Create an entry title that's unique
-            entry_title = f"{name}"
+            metadata = await self.hass.async_add_executor_job(
+                resolve_location_metadata_sync, lat, lon
+            )
 
             return self.async_create_entry(
-                title=entry_title,
+                title=name,
                 data={
                     "name": name,
                     "latitude": lat,
                     "longitude": lon,
                     "fish": fish,
                     "body_type": body_type,
+                    "elevation": metadata.get("elevation"),
                     "timezone": metadata.get("timezone"),
-                    "elevation": metadata.get("elevation")
-                }
+                },
             )
 
-        # First step: let user define one location
-        schema = vol.Schema({
-            vol.Required("name"): str,
-            vol.Required("latitude"): vol.Coerce(float),
-            vol.Required("longitude"): vol.Coerce(float),
-            vol.Required("fish"): selector.SelectSelector(
-                selector.SelectSelectorConfig(
-                    options=[
-                        {"value": f, "label": f.replace("_", " ").title()}
-                        for f in sorted(get_fish_species())
-                    ],
-                    multiple=True,
-                    mode=selector.SelectSelectorMode.DROPDOWN
-                )
-            ),
-            vol.Required("body_type"): vol.In(["lake", "river", "pond", "reservoir"]),
-        })
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema({
+                vol.Required("name"): str,
+                vol.Required("latitude"): vol.Coerce(float),
+                vol.Required("longitude"): vol.Coerce(float),
+                vol.Required("fish"): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=[
+                            {"value": f, "label": f.replace("_", " ").title()}
+                            for f in sorted(get_fish_species())
+                        ],
+                        multiple=True,
+                        mode=selector.SelectSelectorMode.DROPDOWN
+                    )
+                ),
+                vol.Required("body_type"): vol.In(["lake", "river", "pond", "reservoir"]),
+            }),
+            errors=errors
+        )
 
-        return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
-
-    # Add a method to allow users to add more locations
     @staticmethod
     @callback
     def async_get_options_flow(config_entry):
-        """No options for now."""
-        return None
+        return FishingAssistantOptionsFlow(config_entry)
+    
+    @staticmethod
+    @callback
+    def async_get_entry_title(entry: ConfigEntry) -> str:
+        """Return the title of the config entry shown in the UI."""
+        return entry.data.get("name", "Fishing Location")
+
+
+
+class FishingAssistantOptionsFlow(config_entries.OptionsFlow):
+    """Handle options for Fishing Assistant."""
+
+    def __init__(self, config_entry):
+        self.config_entry = config_entry
+
+    async def async_step_init(self, user_input=None):
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema({
+                vol.Required("fish", default=self.config_entry.data.get("fish", [])): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=[
+                            {"value": f, "label": f.replace("_", " ").title()}
+                            for f in sorted(get_fish_species())
+                        ],
+                        multiple=True,
+                        mode=selector.SelectSelectorMode.DROPDOWN
+                    )
+                ),
+                vol.Required("body_type", default=self.config_entry.data.get("body_type", "lake")):
+                    vol.In(["lake", "river", "pond", "reservoir"]),
+            })
+        )

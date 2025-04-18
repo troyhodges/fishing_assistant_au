@@ -1,39 +1,33 @@
 import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-
-from .const import DOMAIN, DEFAULT_NAME
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
+PLATFORMS = ["sensor"]
+
+
+_LOGGER.warning("Fishing Assistant is loading under domain: %s", DOMAIN)
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
-    """Set up Fishing Assistant from YAML configuration."""
-    _LOGGER.info("Fishing Assistant component is setting up.")
-    hass.data.setdefault(DOMAIN, {})
+    """Set up Fishing Assistant from YAML (not used)."""
     return True
 
-async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Fishing Assistant from a config entry."""
-    _LOGGER.info("Fishing Assistant config entry is setting up.")
-    
-    # Store config entry in hass data
+    _LOGGER.debug("Setting up entry: %s", entry.entry_id)
     hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN][config_entry.entry_id] = config_entry.data
-    
-    # Forward entry setup to sensor platform
-    await hass.config_entries.async_forward_entry_setups(config_entry, ["sensor"])
-    
+    hass.data[DOMAIN][entry.entry_id] = entry.data
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
 
-async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
-    _LOGGER.info("Fishing Assistant config entry is unloading.")
-    
-    # Unload the sensor platform
-    unload_ok = await hass.config_entries.async_unload_platforms(config_entry, ["sensor"])
-    
-    # Remove config entry from hass data
+    _LOGGER.debug("Unloading entry: %s", entry.entry_id)
+    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
     if unload_ok:
-        hass.data[DOMAIN].pop(config_entry.entry_id)
-        
+        hass.data[DOMAIN].pop(entry.entry_id, None)
+
     return unload_ok
