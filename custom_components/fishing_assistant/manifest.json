@@ -7,7 +7,6 @@
     "dependencies": [],
     "codeowners": ["@bairnhard"],
     "requirements": ["timezonefinder", "pandas", "skyfield", "jplephem"],
-    "iot_class": "cloud_polling",
-    "integration_type": "integration",
+    "iot_class": "cloud_polling",    
     "config_flow": true
 }

@@ -1,0 +1,1 @@
+"""Helper functions for the Fishing Assistant integration."""

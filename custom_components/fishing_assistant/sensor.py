@@ -98,8 +98,7 @@ class FishScoreSensor(SensorEntity):
             "manufacturer": "Fishing Assistant",
             "model": "Fish Score Sensor",
             "entry_type": "service",
-            "via_device": None,
-            "config_entry_id": self._config_entry_id
+            "via_device": None            
         }
 
     async def async_update(self):
@@ -123,7 +122,7 @@ class FishScoreSensor(SensorEntity):
             body_type=self._attrs["body_type"],
         )
 
-        today_str = str(datetime.date.today())
+        today_str = datetime.date.today().strftime("%Y-%m-%d")
         today_data = forecast.get(today_str, {})
         self._state = today_data.get("score", 0)
 
