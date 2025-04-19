@@ -56,8 +56,5 @@
       "pond": "Pond",
       "reservoir": "Reservoir"
     }
-  },
-    "create_entry": {
-    "default": "Fishing Assistant configured successfully!"
   }
 }
