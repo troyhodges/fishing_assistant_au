@@ -1,13 +1,13 @@
 import logging
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers import config_validation as cv
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 PLATFORMS = ["sensor"]
 
-
-_LOGGER.warning("Fishing Assistant is loading under domain: %s", DOMAIN)
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up Fishing Assistant from YAML (not used)."""

@@ -57,10 +57,7 @@
       "reservoir": "Reservoir"
     }
   },
-  "error": {},
-  "abort": {},
-  "progress": {},
-  "create_entry": {
+    "create_entry": {
     "default": "Fishing Assistant configured successfully!"
   }
 }
