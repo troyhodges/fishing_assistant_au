@@ -14,46 +14,5 @@
           }
         }
       }
-    },
-    "options": {
-      "fish": {
-        "carp": "Karpfen",
-        "trout": "Forelle",
-        "zander": "Zander",
-        "pike": "Hecht",
-        "perch": "Flussbarsch",
-        "catfish": "Wels",
-        "largemouth_bass": "Großmaulbarsch",
-        "smallmouth_bass": "Schwarzbarsch",
-        "walleye": "Glasaugenbarsch",
-        "bluegill": "Sonnenbarsch",
-        "crappie": "Schwarzbarsch",
-        "muskellunge": "Musky",
-        "brook_trout": "Bachsaibling",
-        "brown_trout": "Bachforelle",
-        "rainbow_trout": "Regenbogenforelle",
-        "salmon_atlantic": "Atlantischer Lachs",
-        "salmon_chinook": "Königslachs",
-        "steelhead": "Stahlkopfforelle",
-        "common_nase": "Nase",
-        "chub": "Döbel",
-        "char": "Saibling",
-        "huchen": "Huchen",
-        "bullhead": "Groppe",
-        "whitefish": "Felchen",
-        "burbot": "Quappe",
-        "asp": "Rapfen",
-        "tench": "Schleie",
-        "rudd": "Rotfeder",
-        "bleak": "Laube",
-        "wels_catfish": "Europäischer Wels",
-        "grayling": "Äsche"
-      },
-      "body_type": {
-        "lake": "See",
-        "river": "Fluss",
-        "pond": "Teich",
-        "reservoir": "Stausee"
-      }
     }    
   }

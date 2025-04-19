@@ -14,47 +14,5 @@
         }
       }
     }
-  },
-  "options": {
-    "fish": {
-      "carp": "Carp",
-      "trout": "Trout",
-      "zander": "Zander",
-      "pike": "Pike",
-      "bass": "Bass",
-      "perch": "Perch",
-      "catfish": "Catfish",
-      "largemouth_bass": "Largemouth Bass",
-      "smallmouth_bass": "Smallmouth Bass",
-      "walleye": "Walleye",
-      "bluegill": "Bluegill",
-      "crappie": "Crappie",
-      "muskellunge": "Muskellunge",
-      "brook_trout": "Brook Trout",
-      "brown_trout": "Brown Trout",
-      "rainbow_trout": "Rainbow Trout",
-      "salmon_atlantic": "Atlantic Salmon",
-      "salmon_chinook": "Chinook Salmon",
-      "steelhead": "Steelhead",
-      "common_nase": "Common Nase",
-      "chub": "Chub",
-      "char": "Char",
-      "huchen": "Huchen",
-      "bullhead": "Bullhead",
-      "whitefish": "Whitefish",
-      "burbot": "Burbot",
-      "asp": "Asp",
-      "tench": "Tench",
-      "rudd": "Rudd",
-      "bleak": "Bleak",
-      "wels_catfish": "Wels Catfish",
-      "grayling": "Grayling"
-    },
-    "body_type": {
-      "lake": "Lake",
-      "river": "River",
-      "pond": "Pond",
-      "reservoir": "Reservoir"
-    }
   }
 }
