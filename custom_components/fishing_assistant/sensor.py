@@ -72,11 +72,11 @@ class FishScoreSensor(SensorEntity):
 
     @property
     def device_class(self):
-        return None  # or an appropriate class
+        return None  
 
     @property
     def entity_category(self):
-        return None  # or "diagnostic" if this is supplemental data
+        return None  
     
     @property
     def icon(self):

@@ -131,7 +131,7 @@ async def get_fish_score_forecast(
             score = _score_hour(row=row, profile=fish_profile, astro=astro, weights=weights)
             scores.append((row["hour"], score))
 
-        # 🎣 Best 3-hour rolling window
+        # Best 3-hour rolling window
         best_avg = 0
         best_window = ("--:--", "--:--")
         for i in range(len(scores) - 2):
