@@ -80,6 +80,20 @@ async def get_fish_score_forecast(
         return {}
 
     try:
+        # Log the exact values being sent to the API
+        _LOGGER.debug(f"Making Open-Meteo API request with lat={lat} ({type(lat)}), lon={lon} ({type(lon)})")
+        params = {
+            "latitude": lat,
+            "longitude": lon,
+            "hourly": "temperature_2m,cloudcover,pressure_msl,precipitation,windspeed_10m",
+            "daily": "sunrise,sunset",
+            "timezone": timezone,
+            "elevation": elevation,
+            "start_date": str(today),
+            "end_date": str(end_date)
+        }
+        _LOGGER.debug(f"Full API parameters: {params}")
+
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 OPEN_METEO_URL,
@@ -95,6 +109,11 @@ async def get_fish_score_forecast(
                 },
                 timeout=aiohttp.ClientTimeout(total=15)
             ) as response:
+                if response.status != 200:
+                    error_text = await response.text()
+                    _LOGGER.error(f"Open-Meteo API error: Status {response.status}, Response: {error_text}")
+                    return {}
+
                 data = await response.json()
                 _LOGGER.debug(f"Open-Meteo response: {data}")
                 if "hourly" not in data or "daily" not in data:
