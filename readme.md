@@ -135,3 +135,7 @@ Issues and PRs welcome!
 This is built with love by anglers, for anglers.
 
 ---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
