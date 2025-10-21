@@ -1,6 +1,13 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://hacs.xyz/docs/setup/custom_repositories)
 [![GitHub release](https://img.shields.io/github/v/release/bairnhard/home-assistant-google-aqi?style=for-the-badge)](https://github.com/bairnhard/home-assistant-google-aqi/releases)
 
+
+
+# Fishing Assistant – Australian Edition 🇦🇺
+
+Customised version of [bairnhard/fishing_assistant](https://github.com/bairnhard/fishing_assistant)
+with support for Australian fish species, tide, wind and seasonal scoring.
+
 # 🎣 Fishing Assistant for Home Assistant
 
 **Fishing Assistant** is a custom integration for [Home Assistant](https://www.home-assistant.io) that predicts optimal fishing times for your favorite lakes, rivers, ponds, or reservoirs — based on weather, solunar theory, and environmental factors.

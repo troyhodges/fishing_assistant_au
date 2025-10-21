@@ -1,0 +1,9 @@
+{
+  "domain": "fishing_assistant_au",
+  "name": "Fishing Assistant – Australian Edition",
+  "version": "0.1.0",
+  "requirements": ["pandas", "aiohttp", "skyfield", "jplephem"],
+  "codeowners": ["@troyhodges"],
+  "iot_class": "cloud_polling",
+  "integration_type": "service"
+}
